@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.Models", "Facebook.Models\Facebook.Models.csproj", "{4B8E9C23-6504-4AF1-B84E-DC06E6D8E5AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.Models.Tests", "Facebook.Models.Tests\Facebook.Models.Tests.csproj", "{72FC2529-530F-4B88-995A-1F00F1428BF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4B8E9C23-6504-4AF1-B84E-DC06E6D8E5AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B8E9C23-6504-4AF1-B84E-DC06E6D8E5AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B8E9C23-6504-4AF1-B84E-DC06E6D8E5AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72FC2529-530F-4B88-995A-1F00F1428BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72FC2529-530F-4B88-995A-1F00F1428BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72FC2529-530F-4B88-995A-1F00F1428BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72FC2529-530F-4B88-995A-1F00F1428BF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
