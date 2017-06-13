@@ -46,9 +46,14 @@
     <Compile Include="Campaign.cs" />
     <Compile Include="Enums\BillingEvent.cs" />
     <Compile Include="Enums\BuyingType.cs" />
+    <Compile Include="Enums\CustomEventType.cs" />
+    <Compile Include="Enums\Event.cs" />
     <Compile Include="Enums\ExecutionOptions.cs" />
     <Compile Include="Enums\Objective.cs" />
+    <Compile Include="Enums\OptimizationGoal.cs" />
     <Compile Include="Enums\Status.cs" />
+    <Compile Include="FrequencyControl.cs" />
+    <Compile Include="PromotedObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
