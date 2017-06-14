@@ -65,7 +65,7 @@ pipelines:
             # Configure Nuget Package
             - nuget setApiKey ${NUGET_APIKEY} -Source ${NUGET_URL}
             # Restore package of Private Server
-            - nuget restore -source ${NUGET_URL}
+            #- nuget restore -source ${NUGET_URL}
             # Restore packages
             - dotnet restore
             # Build project
