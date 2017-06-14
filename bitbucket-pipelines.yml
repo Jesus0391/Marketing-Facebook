@@ -73,6 +73,6 @@ pipelines:
             # Run tests
             # - dotnet test ${PROJECT_NAME}.Tests/${PROJECT_NAME}.Tests.csproj
             # Create package
-            - dotnet pack --configuration ${BUILD_CONFIGURATION} --version-suffix=beta-$BUILD_NUMBER
+            - dotnet pack ${PROJECT_NAME}/${PROJECT_NAME}.csproj --configuration ${BUILD_CONFIGURATION} --version-suffix=beta-$BUILD_NUMBER
             # Push generated package(s)
             - nuget push ${PROJECT_NAME}/bin/${BUILD_CONFIGURATION}/*.nupkg -Source ${NUGET_URL}
