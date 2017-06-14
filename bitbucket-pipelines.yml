@@ -69,7 +69,7 @@ pipelines:
             # Restore packages
             - dotnet restore
             # Build project
-            - dotnet build
+            - dotnet build ${PROJECT_NAME}/${PROJECT_NAME}.csproj
             # Run tests
             # - dotnet test ${PROJECT_NAME}.Tests/${PROJECT_NAME}.Tests.csproj
             # Create package
