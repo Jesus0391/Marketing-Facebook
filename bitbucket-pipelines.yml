@@ -71,7 +71,7 @@ pipelines:
             # Build project
             - dotnet build
             # Run tests
-            - dotnet test ${PROJECT_NAME}.Tests/${PROJECT_NAME}.Tests.csproj
+            # - dotnet test ${PROJECT_NAME}.Tests/${PROJECT_NAME}.Tests.csproj
             # Create package
             - dotnet pack --configuration ${BUILD_CONFIGURATION} --version-suffix=beta-$BUILD_NUMBER
             # Push generated package(s)
