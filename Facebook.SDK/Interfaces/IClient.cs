@@ -15,4 +15,9 @@ namespace Facebook.Models.Interfaces
         object Post(string endpoint, object parameters);
         Task<object> PostAsync(string endpoint, object parameters);
     }
+
+    public interface IFacebookClient : IClient
+    {
+        string GetFieldName(string name);
+    }
 }

@@ -8,11 +8,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Facebook.Client
 {
-    public class FacebookClient : IClient
+    public class FacebookClient : IFacebookClient
     {
         private readonly HttpClient _httpClient;
         public string Version { get; set; }
@@ -80,7 +81,7 @@ namespace Facebook.Client
         private string GetQueryString(object model)
         {
             var queryString = 
-                string.Join("&", model.GetType().GetProperties().Select(p => p.Name + "=" + p.GetValue(model, null)));
+                string.Join("&", model.GetType().GetProperties().Select(p => GetFieldName(p.Name) + "=" + p.GetValue(model, null)));
 
             return queryString;
         }
@@ -139,6 +140,16 @@ namespace Facebook.Client
             }
 
             return content;
+        }
+
+        public object GetFacebookStandard(object model)
+        {
+            
+        }
+
+        public string GetFieldName(string name)
+        {
+            return Regex.Replace(name, "([A-Z])", "_$1").ToLower();
         }
     }
 }
