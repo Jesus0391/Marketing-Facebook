@@ -18,6 +18,6 @@ namespace Facebook.Models.Interfaces
 
     public interface IFacebookClient : IClient
     {
-        string GetFieldName(string name);
+        
     }
 }

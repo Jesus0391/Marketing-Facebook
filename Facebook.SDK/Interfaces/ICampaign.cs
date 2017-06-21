@@ -7,7 +7,7 @@ namespace Facebook.SDK.Interfaces
 {
     public interface ICampaign
     {
-        string Create(Campaign campaign);
-        List<Campaign> 
+        string Create(string accountId, Campaign campaign);
+        //List<Campaign> 
     }
 }

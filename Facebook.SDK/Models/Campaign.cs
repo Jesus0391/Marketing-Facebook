@@ -1,7 +1,9 @@
 ﻿using JAM.Facebook.Models.Enums;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace JAM.Facebook.Models
 {
@@ -21,18 +23,20 @@ namespace JAM.Facebook.Models
         /// </summary>
         [DefaultValue(BuyingType.AUCTION)]
         [JsonProperty("buying_type")]
-        [JsonConverter(typeof(BuyingType))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public BuyingType BuyingType { get; set; }
         /// <summary>
         /// Name for this campaign
         /// </summary>
         [JsonProperty("name")]
+        [StringLength(100, ErrorMessage ="The Name can't be empty", MinimumLength =5)]
         public string Name { get; set; }
         /// <summary>
         /// Campaign's objective. If it is specified the API will validate that any ad groups created under the campaign match that objective. 
         /// Currently, with BRAND_AWARENESS objective, all creatives should be either only images or only videos, not mixed.
         /// </summary>
         [JsonProperty("objective")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Objective Objective { get; set; }
         /// <summary>
         /// A spend cap for the campaign, such that it will not spend more than this cap.
@@ -47,6 +51,7 @@ namespace JAM.Facebook.Models
         /// If it is set to PAUSED, its active child objects will be paused and have an effective status CAMPAIGN_PAUSED.
         /// </summary>
         [JsonProperty("status")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Status Status { get; set; }
 
     }

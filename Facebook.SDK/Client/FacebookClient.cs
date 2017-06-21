@@ -1,6 +1,8 @@
 ﻿using Facebook.Models.Interfaces;
 using Facebook.Models.Response;
+using Facebook.SDK.Response;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +20,14 @@ namespace Facebook.Client
         private readonly HttpClient _httpClient;
         public string Version { get; set; }
         public string AccessToken { get; set; }
+        public FacebookClient()
+        {
+        
+        }
         /// <summary>
         /// Make Client with specific version
         /// </summary>
-        /// <param name="version"></param>
+        /// <param name="version">The version of api to access example: 2.8, 2.9, etc..</param>
         public FacebookClient(string version)
         {
             if (string.IsNullOrEmpty(version))
@@ -40,7 +46,7 @@ namespace Facebook.Client
         /// <summary>
         /// Make Client with specific version and access token for all requests
         /// </summary>
-        /// <param name="version"></param>
+        /// <param name="version">The version of api to access example: 2.8, 2.9, etc..</param>
         public FacebookClient(string version, string accessToken)
         {
             if (string.IsNullOrEmpty(version))
@@ -72,21 +78,32 @@ namespace Facebook.Client
             var content = response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Error making request, more detail inner exception", new Exception(content));
+                throw new Exception("Error making request, more detail inner exception", new FacebookException(content));
             }
             var token = JsonConvert.DeserializeObject<Token>(content);
             return token.access_token;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         private string GetQueryString(object model)
         {
             var queryString = 
-                string.Join("&", model.GetType().GetProperties().Select(p => GetFieldName(p.Name) + "=" + p.GetValue(model, null)));
+                string.Join("&", model.GetType().GetProperties().Select(p => GetFieldName(p) + "=" + GetFieldValue(p, model)));
 
             return queryString;
         }
+        /// <summary>
+        /// Serialize Model in Json Values
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         private StringContent GetPayload(object parameters)
         {
+           
             var json = JsonConvert.SerializeObject(parameters);
             return new StringContent(json, Encoding.UTF8, "application/json");
         }
@@ -97,7 +114,7 @@ namespace Facebook.Client
             var content = response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Error making request, more detail inner exception", new Exception(content));
+                throw new Exception("Error making request, more detail inner exception", new FacebookException(content));
             }
 
             return content;
@@ -110,7 +127,7 @@ namespace Facebook.Client
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Error making request, more detail inner exception", new Exception(content));
+                throw new Exception("Error making request, more detail inner exception", new FacebookException(content));
             }
 
             return content;
@@ -123,7 +140,8 @@ namespace Facebook.Client
             var content =  response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Error making request, more detail inner exception", new Exception(content));
+               
+                throw new Exception("Error making request, more detail inner exception", new FacebookException(content));
             }
 
             return content;
@@ -136,20 +154,51 @@ namespace Facebook.Client
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Error making request, more detail inner exception", new Exception(content));
+                throw new Exception("Error making request, more detail inner exception", new FacebookException(content));
             }
 
             return content;
         }
-
-        public object GetFacebookStandard(object model)
+        
+        /// <summary>
+        /// Get FieldName of Object and Retrive the propertyName in JsonPropertyAttribute
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        private string GetFieldName(PropertyInfo property)
         {
-            
+           
+            var attrType = typeof(JsonPropertyAttribute);
+            var customAttribute = property.GetCustomAttributes(attrType, false).FirstOrDefault();
+            if (customAttribute != null)
+            {
+                return ((JsonPropertyAttribute)customAttribute).PropertyName;
+            }
+
+
+            return "";//Regex.Replace(name, "([A-Z])", "_$1").ToLower();
         }
-
-        public string GetFieldName(string name)
+        /// <summary>
+        /// Get FieldValue from model
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private string GetFieldValue(PropertyInfo property, object model)
         {
-            return Regex.Replace(name, "([A-Z])", "_$1").ToLower();
+            var attrType = typeof(JsonConverterAttribute);
+            var customAttribute = property.GetCustomAttributes(attrType, false).FirstOrDefault();
+            if (customAttribute != null)
+            {
+                var typeofConvert = ((JsonConverterAttribute)customAttribute).ConverterType;
+                //p.GetValue(model, null)
+                return Enum.GetName(typeofConvert, property.GetValue(model, null));
+            }
+
+
+            return property.GetValue(model, null).ToString();//Regex.Replace(name, "([A-Z])", "_$1").ToLower();
+
+
         }
     }
 }

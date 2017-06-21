@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.Models.Tests", "Facebook.Models.Tests\Facebook.Models.Tests.csproj", "{72FC2529-530F-4B88-995A-1F00F1428BF7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.Models.Framework", "Facebook.Models.Framework\Facebook.Models.Framework.csproj", "{4D26FDAD-55E7-4D85-80A3-A38095CA75A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facebook.Client", "Facebook.Client\Facebook.Client.csproj", "{64516AFB-1086-4F3E-B60C-4D1FFB64BBE0}"
@@ -25,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{72FC2529-530F-4B88-995A-1F00F1428BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72FC2529-530F-4B88-995A-1F00F1428BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72FC2529-530F-4B88-995A-1F00F1428BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72FC2529-530F-4B88-995A-1F00F1428BF7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D26FDAD-55E7-4D85-80A3-A38095CA75A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D26FDAD-55E7-4D85-80A3-A38095CA75A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D26FDAD-55E7-4D85-80A3-A38095CA75A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,7 +44,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{72FC2529-530F-4B88-995A-1F00F1428BF7} = {E715D7C5-73A6-45AD-B519-3D9A0E370743}
 		{4D26FDAD-55E7-4D85-80A3-A38095CA75A6} = {BBC84C00-A1A6-4CDE-B39C-CE3569A08669}
 		{64516AFB-1086-4F3E-B60C-4D1FFB64BBE0} = {BBC84C00-A1A6-4CDE-B39C-CE3569A08669}
 		{7086194D-2203-41C1-88B5-983674BA79F1} = {96C296F0-0F04-460D-A3C7-8766022969A1}
