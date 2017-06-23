@@ -1,8 +1,9 @@
-﻿using Facebook.Models.Interfaces;
+﻿using Facebook.Interfaces;
 using Facebook.Models.Response;
-using Facebook.SDK.Response;
+using Facebook.SDK;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace Facebook.Client
         /// Make Client with specific version
         /// </summary>
         /// <param name="version">The version of api to access example: 2.8, 2.9, etc..</param>
-        public FacebookClient(string version)
+        private FacebookClient(string version)
         {
             if (string.IsNullOrEmpty(version))
             {
@@ -47,15 +48,28 @@ namespace Facebook.Client
         /// Make Client with specific version and access token for all requests
         /// </summary>
         /// <param name="version">The version of api to access example: 2.8, 2.9, etc..</param>
+        /// <param name="accessToken">The access token provider for facebook </param>
         public FacebookClient(string version, string accessToken)
         {
             if (string.IsNullOrEmpty(version))
             {
                 throw new Exception("Required version for access to Facebook Api");
             }
-            //Set Version
-            Version = version;
-            AccessToken = accessToken;
+            else
+            {
+                //Set Version
+                Version = version;
+            }
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                throw new Exception("Required access token for access to Facebook Api");
+            }
+            else
+            {
+
+                AccessToken = accessToken;
+            }
+
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri($"https://graph.facebook.com/v{Version}/")
@@ -64,6 +78,42 @@ namespace Facebook.Client
                      .Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        /// <summary>
+        /// Create Facebook client with generated Access Token
+        /// </summary>
+        /// <param name="version"></param>
+        /// <param name="clientId"></param>
+        /// <param name="secret"></param>
+        /// <param name="grantType"></param>
+        public FacebookClient(string version, string clientId,
+                                    string secret, string grantType)
+        {
+            if (string.IsNullOrEmpty(version))
+            {
+                throw new Exception("Required version for access to Facebook Api");
+            }
+            else
+            {
+                //Set Version
+                Version = version;
+            }
+
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri($"https://graph.facebook.com/v{Version}/")
+            };
+            _httpClient.DefaultRequestHeaders.Accept
+                     .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(grantType))
+            {
+                throw new Exception("Required the clientId, secret and grantType is provider for access to Facebook Api");
+            }
+            else
+            {
+
+                AccessToken = GetAccessToken(clientId, secret, grantType);
+            }
+        }
         /// <summary>
         /// Request Access token
         /// </summary>
@@ -78,7 +128,7 @@ namespace Facebook.Client
             var content = response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Error making request, more detail inner exception", new FacebookException(content));
+                throw new Exception("Error making request for get access token, more details inner exception", new FacebookException(content));
             }
             var token = JsonConvert.DeserializeObject<Token>(content);
             return token.access_token;
@@ -91,10 +141,17 @@ namespace Facebook.Client
         /// <returns></returns>
         private string GetQueryString(object model)
         {
-            var queryString = 
-                string.Join("&", model.GetType().GetProperties().Select(p => GetFieldName(p) + "=" + GetFieldValue(p, model)));
+            if (model == null)
+            {
+                return "";
+            }
+            else
+            {
+                var queryString =
+                    string.Join("&", model.GetType().GetProperties().Select(p => GetFieldName(p) + "=" + GetFieldValue(p, model)));
 
-            return queryString;
+                return queryString;
+            }
         }
         /// <summary>
         /// Serialize Model in Json Values
@@ -103,14 +160,16 @@ namespace Facebook.Client
         /// <returns></returns>
         private StringContent GetPayload(object parameters)
         {
-           
             var json = JsonConvert.SerializeObject(parameters);
-            return new StringContent(json, Encoding.UTF8, "application/json");
+            JObject jsonObject = JObject.FromObject(parameters);
+            jsonObject.Add("acess_token", AccessToken);
+
+            return new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
         }
         public object Get(string endpoint, object parameters)
         {
             var queryStringParameters = GetQueryString(parameters);
-            var response = _httpClient.GetAsync($"{endpoint}?acess_token={AccessToken}&{queryStringParameters}").Result;
+            var response = _httpClient.GetAsync($"{endpoint}?access_token={AccessToken}{queryStringParameters}").Result;
             var content = response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -123,7 +182,7 @@ namespace Facebook.Client
         public async Task<object> GetAsync(string endpoint, object parameters)
         {
             var queryStringParameters = GetQueryString(parameters);
-            var response = await _httpClient.GetAsync($"{endpoint}?acess_token={AccessToken}&{queryStringParameters}");
+            var response = await _httpClient.GetAsync($"{endpoint}?access_token={AccessToken}&{queryStringParameters}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -133,10 +192,11 @@ namespace Facebook.Client
             return content;
         }
 
+
         public object Post(string endpoint, object parameters)
         {
             var body = GetPayload(parameters);
-            var response =  _httpClient.PostAsync($"{endpoint}?acess_token={AccessToken}", body).Result;
+            var response =  _httpClient.PostAsync($"{endpoint}?access_token={AccessToken}", body).Result;
             var content =  response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -150,7 +210,7 @@ namespace Facebook.Client
         public async Task<object> PostAsync(string endpoint, object parameters)
         {
             var body = GetPayload(parameters);
-            var response = await _httpClient.PostAsync($"{endpoint}?acess_token={AccessToken}", body);
+            var response = await _httpClient.PostAsync($"{endpoint}?access_token={AccessToken}", body);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -176,7 +236,7 @@ namespace Facebook.Client
             }
 
 
-            return "";//Regex.Replace(name, "([A-Z])", "_$1").ToLower();
+            return property.Name;//Regex.Replace(name, "([A-Z])", "_$1").ToLower();
         }
         /// <summary>
         /// Get FieldValue from model

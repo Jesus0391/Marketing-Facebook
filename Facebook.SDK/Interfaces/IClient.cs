@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Facebook.Models.Interfaces
+namespace Facebook.Interfaces
 {
     public interface IClient
     {
@@ -18,6 +18,8 @@ namespace Facebook.Models.Interfaces
 
     public interface IFacebookClient : IClient
     {
-        
+        string GetAccessToken(string clientId, string secret, string grantType);
+        string AccessToken { get; set; }
+        string Version { get; set; }
     }
 }

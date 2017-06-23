@@ -1,5 +1,5 @@
 ﻿using Facebook.Client;
-using Facebook.Models.Interfaces;
+using Facebook.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,10 +13,28 @@ namespace Facebook.SDK.Services
         protected List<ValidationResult> _results;
         protected ValidationContext _validationContext;
 
-        public BaseService(string version)
+        //Constructs 
+        private BaseService(string version)
         {
-            _client = new FacebookClient(version);
+           // _client = new FacebookClient(version);
         }
+        public BaseService(string version, string accessToken)
+        {
+            _client = new FacebookClient(version, accessToken);
+        }
+        /// <summary>
+        /// Get Service with Facebook Client and acess token
+        /// </summary>
+        /// <param name="version"></param>
+        /// <param name="clientId"></param>
+        /// <param name="secret"></param>
+        /// <param name="grantType"></param>
+        public BaseService(string version, string clientId,
+                                    string secret, string grantType)
+        { 
+            _client = new FacebookClient(version, clientId, secret, grantType);
+        }
+
         public BaseService(IFacebookClient client)
         {
             _client = client;
@@ -40,6 +58,30 @@ namespace Facebook.SDK.Services
             return messages;
         }
 
+        public string GetAccount(string customerId)
+        {
+            if (customerId != "")
+            {
+                dynamic account;
+                try
+                {
+                    account = _client.Get($"/{customerId}/", new
+                    {
+                        fields = "account_id"
+                    });
+                }
+                catch (Exception ex)
+                {
+                    account = _client.Get($"/act_{customerId}/", new { fields = "account_id" });
+                }
+                return "act_" + (string)account.account_id;
+            }
+            else
+            {
+                throw new Exception("The customerId can't be empty");
+            }
+
+        }
 
 
 

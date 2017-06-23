@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static Facebook.SDK.Response.FacebookErrorMessage;
+using static Facebook.SDK.FacebookErrorMessage;
 
-namespace Facebook.SDK.Response
+namespace Facebook.SDK
 {
     public class FacebookException : Exception
     {

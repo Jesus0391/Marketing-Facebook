@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Facebook.SDK.Interfaces
 {
-    public interface ICampaign
+    public interface ICampaignService
     {
         string Create(string accountId, Campaign campaign);
+        List<Campaign> List(string accountId);
         //List<Campaign> 
     }
 }
