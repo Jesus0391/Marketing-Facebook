@@ -74,6 +74,10 @@ namespace Facebook.SDK.Services
                 {
                     account = _client.Get($"/act_{customerId}/", new { fields = "account_id" });
                 }
+                if (account == null)
+                {
+                    return $"act_{ customerId}";
+                }
                 return "act_" + (string)account.account_id;
             }
             else

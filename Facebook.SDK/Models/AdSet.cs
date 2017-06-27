@@ -1,5 +1,6 @@
 ﻿using Facebook.Models.Enums;
 using JAM.Facebook.Models.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ namespace Facebook.Models
         /// <summary>
         /// Ad set schedule, representing a delivery schedule for a single day
         /// </summary>
+        [JsonProperty("adset_schedule")]
         public List<AdSetSchedule> Schedule { get; set; }
         /// <summary>
         /// Bid amount for this ad set, defined as your true value bid based on optimization_goal. 
@@ -25,6 +27,7 @@ namespace Facebook.Models
         /// The minimum bid amounts of other currencies are of similar value to the US Dollar values provided.
         /// </summary>
         [DefaultValue(1)]
+        [JsonProperty("bid_Amount")]
         public int BidAmount { get; set; }
         /// <summary>
         /// The billing event that this adset is using:
@@ -37,20 +40,24 @@ namespace Facebook.Models
         /// POST_ENGAGEMENT: Pay when people engage with your post.
         /// VIDEO_VIEWS: Pay when people watch videos.
         /// </summary>
+        [JsonProperty("billing_event")]
         public BillingEvent BillingEvent { get; set; }
         /// <summary>
         /// The ad campaign you wish to add this ad set to.
         /// </summary>
+        [JsonProperty("campaign_id")]
         public string CampaignId { get; set; }
         /// <summary>
         /// The daily budget defined in your account currency, allowed only for ad sets with a duration 
         /// (difference between end_time and start_time) longer than 24 hours. 
         /// Either daily_budget or lifetime_budget must be greater than 0.
         /// </summary>
+        [JsonProperty("daily_budget")]
         public Int64 DailyBudget { get; set; }
         /// <summary>
         /// Daily impressions. Available only for campaigns with buying_type=FIXED_CPM
         /// </summary>
+        [JsonProperty("daily_imps")]
         public Int64 DailyImpressions { get; set; }
         /// <summary>
         /// End time, required when lifetime_budget is specified.
@@ -58,6 +65,7 @@ namespace Facebook.Models
         /// When creating a set with a daily budget, specify end_time=0 to set the set to be ongoing and have no end date. 
         /// UTC UNIX timestamp
         /// </summary>
+        [JsonProperty("end_time")]
         public DateTime EndTime { get; set; }
         /// <summary>
         /// Default value: Set
@@ -72,6 +80,7 @@ namespace Facebook.Models
         ///These options can be used to improve any UI to display errors to the user much sooner, 
         ///e.g. as soon as a new value is typed into any field corresponding to this ad object, rather than at the upload/save stage, or after review.
         /// </summary>
+        [JsonProperty("execution_options")]
         public List<ExecutionOptions> ExecutionOptions { get; set; }
         /// <summary>
         /// An array of frequency control specs for this ad set.
@@ -79,29 +88,35 @@ namespace Facebook.Models
         /// Only available in ad sets of campaigns with BRAND_AWARENESS as objective and REACH as optimization_goal.
         /// These cannot be used in Reach & Frequency campaigns.
         /// </summary>
+        [JsonProperty("frequency_control_specs")]
         public List<FrequencyControl> FrequencyControlSpecs { get; set; }
         /// <summary>
         /// If autobid is set. Either bid_amount or is_autobid is required except in Reach and Frequency ad sets.
         /// Cannot be used when using billing_event=APP_INSTALLS or MOBILE_APP_INSTALLS.
         /// </summary>
+        [JsonProperty("is_autobid")]
         public bool IsAutoBid { get; set; }
         /// <summary>
         /// Flag used to determine whether average price pacing is enabled.
         /// Default value is false. More details can be found in this help document.
         /// </summary>
+        [JsonProperty("is_average_price_pacing")]
         public bool IsAveragePricePacing { get; set; }
         /// <summary>
         /// Lifetime budget, defined in your account currency. If specified, you must also specify an end_time.
         /// Either daily_budget or lifetime_budget must be greater than 0.
         /// </summary>
+        [JsonProperty("lifetime_budget")]
         public Int64 LifeTimeBudget { get; set; }
         /// <summary>
         /// Lifetime impressions. Available only for campaigns with buying_type=FIXED_CPM
         /// </summary>
+        [JsonProperty("lifetime_imps")]
         public Int64 LifeTimeImpressions { get; set; }
         /// <summary>
         /// Ad set name, max length of 400 characters.
         /// </summary>
+        [JsonProperty("name")]
         public string Name { get; set;  }
         /// <summary>
         /// What the ad set is optimizing for. 
@@ -124,37 +139,46 @@ namespace Facebook.Models
         /// VIDEO_VIEWS: Will optimize for people more likely to watch videos.
         /// LEAD_GENERATION: Will optimize for people more likely to fill out a lead generation form.
         /// </summary>
+        [JsonProperty("optimization_goal")]
         public OptimizationGoal OptimizationGoal { get; set; }
         /// <summary>
         /// Defines the pacing type, standard by default or using 
         /// </summary>
+        [JsonProperty("pacing_type")]
         public List<string> PacingType { get; set; }
+        [JsonProperty("promoted_object")]
         public PromotedObject PromotedObject { get; set; }
         /// <summary>
         /// Allows you to specify that you would like to retrieve all fields of the set in your response. Default value: false.
         /// </summary>
+        [JsonProperty("redownload")]
         public bool Redownload { get; set; }
         /// <summary>
         /// Reach and frequency prediction ID
         /// </summary>
+        [JsonProperty("rf_prediction_id")]
         public int RfPredictionId { get; set; }
         /// <summary>
         /// Whether this adset is using RTB or not
         /// </summary>
+        [JsonProperty("rtb_flag")]
         public bool RFFlag { get; set; }
         /// <summary>
         /// The start time of the set, e.g. 2015-03-12 23:59:59-07:00 or 2015-03-12 23:59:59 PDT. UTC UNIX timestamp
         /// </summary>
+        [JsonProperty("start_time")]
         public DateTime StartTime { get; set; }
         /// <summary>
         /// Only ACTIVE and PAUSED are valid for creation.
         /// The other statuses can be used for update. 
         /// If it is set to PAUSED, all its active ads will be paused and have an effective status ADSET_PAUSED.
         /// </summary>
+        [JsonProperty("status")]
         public Status Status { get; set; }
         /// <summary>
         /// Pending Definition struct of Targeting (Locations, countries, etc....)
         /// </summary>
+        [JsonProperty("targeting")]
         public object Targeting { get; set; }
         /// <summary>
         /// Specify ad creative that displays at custom date ranges in a campaign as an array.
@@ -165,6 +189,7 @@ namespace Facebook.Models
         /// On the first date range show ad 1, on the second date range show ad 2 and ad 3 and on the last date range show ad 1 and ad 4. 
         /// Use with time_based_ad_rotation_intervals to specify date ranges.
         /// </summary>
+        [JsonProperty("time_based_ad_rotation_id_blocks")]
         public List<List<Int64>> TimeBaseAdRotationIdBlocks { get; set; }
         /// <summary>
         /// Date range when specific ad creative displays during a campaign.
@@ -178,6 +203,7 @@ namespace Facebook.Models
         /// All date ranges must cover the whole campaign length, so any date range cannot exceed campaign length.
         /// Use with time_based_ad_rotation_id_blocks to specify ad creative for each date range.
         /// </summary>
+        [JsonProperty("time_based_ad_rotation_intervals")]
         public List<Int64> TimeBaedAdRotationIntervals { get; set; }
     }
 }

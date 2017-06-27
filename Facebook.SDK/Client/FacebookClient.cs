@@ -145,9 +145,13 @@ namespace Facebook.Client
             {
                 return "";
             }
-            else
+            else if (model.GetType().GetProperties().Any(c=>c.GetCustomAttributes().Count() > 0))
             {
-                var queryString =
+                var jsonConvertQueryString = $"&{JsonConvert.SerializeObject(model).JsonToQuery()}";
+                return jsonConvertQueryString;
+            }else
+            {
+                var queryString = "&" +
                     string.Join("&", model.GetType().GetProperties().Select(p => GetFieldName(p) + "=" + GetFieldValue(p, model)));
 
                 return queryString;
@@ -252,12 +256,21 @@ namespace Facebook.Client
             {
                 var typeofConvert = ((JsonConverterAttribute)customAttribute).ConverterType;
                 //p.GetValue(model, null)
-                return Enum.GetName(typeofConvert, property.GetValue(model, null));
+                return Enum.GetName(typeofConvert, property.GetValue(model, null).ToString().ToLower());
             }
 
-
-            return property.GetValue(model, null).ToString();//Regex.Replace(name, "([A-Z])", "_$1").ToLower();
-
+            try
+            {
+                return property.GetValue(model, null).ToString();//Regex.Replace(name, "([A-Z])", "_$1").ToLower();
+            }catch(Exception e)
+            {
+                string jsonString = JsonConvert.SerializeObject(model);
+                var jsonObject = (JObject)JsonConvert.DeserializeObject(jsonString);
+                var query = String.Join("&",
+                                            jsonObject.Children().Cast<JProperty>()
+                                            .Select(jp => jp.Name + "=" + jp.Value.ToString()));
+                return JsonConvert.SerializeObject(property.Name);
+            }
 
         }
     }

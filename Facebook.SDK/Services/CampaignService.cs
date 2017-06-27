@@ -21,7 +21,12 @@ namespace Facebook.SDK.Services
         {
 
         }
-
+        /// <summary>
+        /// Create Campaign 
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="campaign"></param>
+        /// <returns></returns>
         public string Create(string accountId, Campaign campaign)
         {
          
@@ -48,12 +53,21 @@ namespace Facebook.SDK.Services
 
         }
 
+        /// <summary>
+        /// Get Campaigns 
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
         public List<Campaign> List(string accountId)
         {
             if (string.IsNullOrEmpty(accountId)) {
                 throw new Exception("The account id is empty");
             }
             dynamic campaigns = _client.Get($"{accountId}/{ENDPOINT}", null);
+            foreach(var camapagin in campaigns.data)
+            {
+
+            }
             return null;
         }
     }

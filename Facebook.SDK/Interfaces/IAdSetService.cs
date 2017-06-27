@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Facebook.SDK.Interfaces
 {
-    public interface ICampaignService : IService<Campaign>
+    public interface IAdSetService : IService<AdSet>
     {
        
     }
