@@ -1,5 +1,7 @@
 ﻿using Facebook.Client;
 using Facebook.Interfaces;
+using Facebook.SDK.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -74,11 +76,8 @@ namespace Facebook.SDK.Services
                 {
                     account = _client.Get($"/act_{customerId}/", new { fields = "account_id" });
                 }
-                if (account == null)
-                {
-                    return $"act_{ customerId}";
-                }
-                return "act_" + (string)account.account_id;
+                var businessAccount = JsonConvert.DeserializeObject<BusinessAccount>(account);
+                return (businessAccount.Id);
             }
             else
             {

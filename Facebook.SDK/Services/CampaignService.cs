@@ -5,6 +5,9 @@ using System.Text;
 using JAM.Facebook.Models;
 using Facebook.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using Facebook.SDK.Response;
+using Facebook.Models;
+using Facebook.Models.Enums;
 
 namespace Facebook.SDK.Services
 {
@@ -33,23 +36,23 @@ namespace Facebook.SDK.Services
             _results = new List<ValidationResult>();
             _validationContext = new ValidationContext(campaign);
             var isValid = Validator.TryValidateObject(campaign, _validationContext, _results);
-            string id = "";
+            ResponseShared response = null;
             if (!isValid)
             {
                 throw new Exception("The Campaign is invalid model, more inner exception", new Exception(GetErrorsMesages()));
             }
-            //accountId = GetAccount(accountId);
+            accountId = GetAccount(accountId);
             //Valid Rules for Create Campaigns based in Facebook Api. 
             if (campaign != null && !string.IsNullOrEmpty(accountId))
             {
-                dynamic response = _client.Post($"act_{accountId}/{ENDPOINT}", campaign);
-                id = (string)response.id;
-                if (string.IsNullOrEmpty(id))
+                 response = ((string)_client.Post($"{accountId}/{ENDPOINT}", campaign)).JsonToObject<ResponseShared>(ResponseType.Other);
+               
+                if (response == null || string.IsNullOrEmpty(response.Id))
                 {
                     throw new Exception("Error to trying saved campaign in Facebook");
                 }
             }
-            return id;
+            return response.Id;
 
         }
 
@@ -63,12 +66,14 @@ namespace Facebook.SDK.Services
             if (string.IsNullOrEmpty(accountId)) {
                 throw new Exception("The account id is empty");
             }
-            dynamic campaigns = _client.Get($"{accountId}/{ENDPOINT}", null);
-            foreach(var camapagin in campaigns.data)
-            {
+            List<Campaign> campaigns = ((string)_client.Get($"{accountId}/{ENDPOINT}", null)).JsonToObject<List<Campaign>>();
+           
+            return campaigns;
+        }
 
-            }
-            return null;
+        public List<AdSet> GetAdSets(string campaignId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

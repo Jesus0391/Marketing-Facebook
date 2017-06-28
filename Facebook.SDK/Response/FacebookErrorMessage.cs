@@ -13,23 +13,32 @@ namespace Facebook.SDK
         public FacebookException(string content)
         {
             FacebookError = JsonConvert.DeserializeObject<FacebookErrorMessage>(content).Error;
+            _message = !string.IsNullOrEmpty(FacebookError.error_user_title) ? 
+                            FacebookError.error_user_title : FacebookError.message;
         }
 
-        public override string Message => $"Facebook error: {FacebookError.message}";
+        public override string Message => $"Facebook error: {_message}";
 
     }
 
-    public class FacebookErrorMessage {
+    public class FacebookErrorMessage
+    {
         public class ErrorMessage
         {
+            //
             public string message { get; set; }
             public string type { get; set; }
             public string code { get; set; }
+            public string error_subcode { get; set; }
+            public bool is_transient { get; set; }
             public string fbtrace_id { get; set; }
+
+            //User Message
+            public string error_user_title { get; set; }
+            public string error_user_msg { get; set; }
         }
 
         public ErrorMessage Error { get; set; }
+
     }
-
-
 }

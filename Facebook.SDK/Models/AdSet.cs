@@ -1,6 +1,7 @@
 ﻿using Facebook.Models.Enums;
 using JAM.Facebook.Models.Enums;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Facebook.Models
 {
-    public class AdSet
+    public class AdSet : IEntity
     {
         /// <summary>
         /// Ad set schedule, representing a delivery schedule for a single day
@@ -205,5 +206,37 @@ namespace Facebook.Models
         /// </summary>
         [JsonProperty("time_based_ad_rotation_intervals")]
         public List<Int64> TimeBaedAdRotationIntervals { get; set; }
+
+        //================================================================================================================================
+        //Method's from Campaigns
+
+        /// <summary>
+        /// If ad draft id is specfied, adsets from draft will be included
+        /// </summary>
+        [JsonProperty("ad_draft_id")]
+        public string DraftId { get; set; }
+
+        /// <summary>
+        /// Preset date range used to aggregate insights metrics
+        /// </summary>
+        [JsonProperty("date_present")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public DatePresent DatePresent { get; set; }
+
+        /// <summary>
+        /// Filter adsets by effective status
+        /// </summary>
+        [JsonProperty("effective_status")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public List<Status> EffectiveStatus { get; set; }
+
+        [JsonProperty("is_completed")]
+        public bool IsCompleted { get; set; }
+
+        [JsonProperty("time_range")]
+        public TimeRange TimeRange { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
     }
 }

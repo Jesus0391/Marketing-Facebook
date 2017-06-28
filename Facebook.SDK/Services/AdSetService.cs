@@ -5,12 +5,13 @@ using System.Text;
 using Facebook.Models;
 using JAM.Facebook.Models;
 using Facebook.Interfaces;
+using Facebook.SDK.Response;
 
 namespace Facebook.SDK.Services
 {
     public class AdSetService : BaseService, IAdSetService
     {
-        private const string ENDPOINT = "adcampaigns";
+        private const string ENDPOINT = "adsets";
         public AdSetService(string version, string clientId,
                                     string secret, string grantType) : 
                                         base(version, clientId, secret, grantType)
@@ -24,28 +25,31 @@ namespace Facebook.SDK.Services
       
         public List<AdSet> List(string accountId)
         {
-            var list = new List<AdSet>();
             if (string.IsNullOrEmpty(accountId))
             {
                 throw new Exception("The account id is empty");
             }
             accountId = GetAccount(accountId);
-            dynamic adsets = _client.Get($"{accountId}/{ENDPOINT}", new  {
-                fields = new AdSet()
-            });
-            foreach (var adset in adsets.data)
-            {
-                list.Add(new AdSet()
-                {
-
-                });
-            }
-            return null;
+            var adsets = _client.Get($"{accountId}/{ENDPOINT}", new  {
+                fields = "id,name"
+            }).ToString().JsonToObject<List<AdSet>>();
+          
+            return adsets;
         }
 
         public string Create(string accountId, AdSet model)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(accountId))
+            {
+                throw new Exception("The account id is empty");
+            }
+            accountId = GetAccount(accountId);
+            var adset = _client.Get($"{accountId}/{ENDPOINT}", new
+            {
+                fields = "id,name"
+            }).ToString().JsonToObject<ResponseShared>();
+
+            return adset.Id;
         }
     }
 }

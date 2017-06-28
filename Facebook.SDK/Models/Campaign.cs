@@ -1,4 +1,5 @@
-﻿using JAM.Facebook.Models.Enums;
+﻿using Facebook.Models.Enums;
+using JAM.Facebook.Models.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -7,8 +8,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace JAM.Facebook.Models
 {
-    public class Campaign
+    public class Campaign : IEntity
     {
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
         /// <summary>
         /// Whether to automatically rebalance budgets daily for all the adsets under this campaign.
         /// </summary>

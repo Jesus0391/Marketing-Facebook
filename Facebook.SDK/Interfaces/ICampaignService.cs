@@ -8,6 +8,6 @@ namespace Facebook.SDK.Interfaces
 {
     public interface ICampaignService : IService<Campaign>
     {
-       
+       List<AdSet> GetAdSets(string campaignId);
     }
 }

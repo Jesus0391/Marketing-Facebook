@@ -18,7 +18,7 @@ namespace Facebook.Client
 {
     public class FacebookClient : IFacebookClient
     {
-        private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;
         public string Version { get; set; }
         public string AccessToken { get; set; }
         public FacebookClient()
@@ -102,8 +102,8 @@ namespace Facebook.Client
             {
                 BaseAddress = new Uri($"https://graph.facebook.com/v{Version}/")
             };
-            _httpClient.DefaultRequestHeaders.Accept
-                     .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //_httpClient.DefaultRequestHeaders.Accept
+            //         .Add(new MediaTypeWithQualityHeaderValue("application/json"));
             if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(grantType))
             {
                 throw new Exception("Required the clientId, secret and grantType is provider for access to Facebook Api");
@@ -173,7 +173,7 @@ namespace Facebook.Client
         public object Get(string endpoint, object parameters)
         {
             var queryStringParameters = GetQueryString(parameters);
-            var response = _httpClient.GetAsync($"{endpoint}?access_token={AccessToken}{queryStringParameters}").Result;
+            var response = _httpClient.GetAsync($"{_httpClient.BaseAddress.AbsoluteUri}{endpoint}?access_token={AccessToken}{queryStringParameters}").Result;
             var content = response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -186,7 +186,7 @@ namespace Facebook.Client
         public async Task<object> GetAsync(string endpoint, object parameters)
         {
             var queryStringParameters = GetQueryString(parameters);
-            var response = await _httpClient.GetAsync($"{endpoint}?access_token={AccessToken}&{queryStringParameters}");
+            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress.AbsoluteUri}{endpoint}?access_token={AccessToken}&{queryStringParameters}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -200,7 +200,7 @@ namespace Facebook.Client
         public object Post(string endpoint, object parameters)
         {
             var body = GetPayload(parameters);
-            var response =  _httpClient.PostAsync($"{endpoint}?access_token={AccessToken}", body).Result;
+            var response =  _httpClient.PostAsync($"{_httpClient.BaseAddress.AbsoluteUri}{endpoint}?access_token={AccessToken}", body).Result;
             var content =  response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -214,7 +214,7 @@ namespace Facebook.Client
         public async Task<object> PostAsync(string endpoint, object parameters)
         {
             var body = GetPayload(parameters);
-            var response = await _httpClient.PostAsync($"{endpoint}?access_token={AccessToken}", body);
+            var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress.AbsoluteUri}{endpoint}?access_token={AccessToken}", body);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
