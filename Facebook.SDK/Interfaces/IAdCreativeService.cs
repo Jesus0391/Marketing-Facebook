@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Facebook.SDK.Interfaces
 {
-    public interface IAdCreative :IService<AdCreative>
+    public interface IAdCreativeService :IService<AdCreative>
     {
 
     }
