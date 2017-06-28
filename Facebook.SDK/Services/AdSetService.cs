@@ -6,6 +6,8 @@ using Facebook.Models;
 using JAM.Facebook.Models;
 using Facebook.Interfaces;
 using Facebook.SDK.Response;
+using Facebook.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Facebook.SDK.Services
 {
@@ -37,19 +39,34 @@ namespace Facebook.SDK.Services
             return adsets;
         }
 
-        public string Create(string accountId, AdSet model)
+        public string Create(string accountId, AdSet adset)
         {
-            if (string.IsNullOrEmpty(accountId))
+            _results = new List<ValidationResult>();
+            _validationContext = new ValidationContext(adset);
+            var isValid = Validator.TryValidateObject(adset, _validationContext, _results);
+            ResponseShared response = null;
+            if (!isValid)
             {
-                throw new Exception("The account id is empty");
+                throw new Exception("The Campaign is invalid model, more inner exception", new Exception(GetErrorsMesages()));
             }
             accountId = GetAccount(accountId);
-            var adset = _client.Get($"{accountId}/{ENDPOINT}", new
+            //Valid Rules for Create Campaigns based in Facebook Api. 
+            if (adset != null && !string.IsNullOrEmpty(accountId))
             {
-                fields = "id,name"
-            }).ToString().JsonToObject<ResponseShared>();
+                try
+                {
+                    response = ((string)_client.Post($"{accountId}/{ENDPOINT}", adset)).JsonToObject<ResponseShared>(ResponseType.Other);
 
-            return adset.Id;
+                    if (response == null || string.IsNullOrEmpty(response.Id))
+                    {
+                        throw new Exception("Error to trying saved adset in Facebook");
+                    }
+                }catch(Exception e)
+                {
+                    throw e;
+                }
+            }
+            return response.Id;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Facebook.SDK
         public FacebookException(string content)
         {
             FacebookError = JsonConvert.DeserializeObject<FacebookErrorMessage>(content).Error;
-            _message = !string.IsNullOrEmpty(FacebookError.error_user_title) ? 
+            _message = !string.IsNullOrEmpty(FacebookError.error_user_title) ?
                             FacebookError.error_user_title : FacebookError.message;
         }
 
@@ -32,6 +32,7 @@ namespace Facebook.SDK
             public string error_subcode { get; set; }
             public bool is_transient { get; set; }
             public string fbtrace_id { get; set; }
+            public IEnumerable<string> blame_field_specs { get; set; }
 
             //User Message
             public string error_user_title { get; set; }

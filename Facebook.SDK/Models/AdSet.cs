@@ -28,7 +28,7 @@ namespace Facebook.Models
         /// The minimum bid amounts of other currencies are of similar value to the US Dollar values provided.
         /// </summary>
         [DefaultValue(1)]
-        [JsonProperty("bid_Amount")]
+        [JsonProperty("bid_amount")]
         public int BidAmount { get; set; }
         /// <summary>
         /// The billing event that this adset is using:
@@ -42,6 +42,7 @@ namespace Facebook.Models
         /// VIDEO_VIEWS: Pay when people watch videos.
         /// </summary>
         [JsonProperty("billing_event")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public BillingEvent BillingEvent { get; set; }
         /// <summary>
         /// The ad campaign you wish to add this ad set to.
@@ -54,12 +55,12 @@ namespace Facebook.Models
         /// Either daily_budget or lifetime_budget must be greater than 0.
         /// </summary>
         [JsonProperty("daily_budget")]
-        public Int64 DailyBudget { get; set; }
+        public Int64? DailyBudget { get; set; }
         /// <summary>
         /// Daily impressions. Available only for campaigns with buying_type=FIXED_CPM
         /// </summary>
         [JsonProperty("daily_imps")]
-        public Int64 DailyImpressions { get; set; }
+        public Int64? DailyImpressions { get; set; }
         /// <summary>
         /// End time, required when lifetime_budget is specified.
         /// e.g. 2015-03-12 23:59:59-07:00 or 2015-03-12 23:59:59 PDT. 
@@ -82,6 +83,7 @@ namespace Facebook.Models
         ///e.g. as soon as a new value is typed into any field corresponding to this ad object, rather than at the upload/save stage, or after review.
         /// </summary>
         [JsonProperty("execution_options")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public List<ExecutionOptions> ExecutionOptions { get; set; }
         /// <summary>
         /// An array of frequency control specs for this ad set.
@@ -108,12 +110,12 @@ namespace Facebook.Models
         /// Either daily_budget or lifetime_budget must be greater than 0.
         /// </summary>
         [JsonProperty("lifetime_budget")]
-        public Int64 LifeTimeBudget { get; set; }
+        public Int64? LifeTimeBudget { get; set; }
         /// <summary>
         /// Lifetime impressions. Available only for campaigns with buying_type=FIXED_CPM
         /// </summary>
         [JsonProperty("lifetime_imps")]
-        public Int64 LifeTimeImpressions { get; set; }
+        public Int64? LifeTimeImpressions { get; set; }
         /// <summary>
         /// Ad set name, max length of 400 characters.
         /// </summary>
@@ -141,12 +143,14 @@ namespace Facebook.Models
         /// LEAD_GENERATION: Will optimize for people more likely to fill out a lead generation form.
         /// </summary>
         [JsonProperty("optimization_goal")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public OptimizationGoal OptimizationGoal { get; set; }
         /// <summary>
         /// Defines the pacing type, standard by default or using 
         /// </summary>
         [JsonProperty("pacing_type")]
         public List<string> PacingType { get; set; }
+
         [JsonProperty("promoted_object")]
         public PromotedObject PromotedObject { get; set; }
         /// <summary>
@@ -158,7 +162,7 @@ namespace Facebook.Models
         /// Reach and frequency prediction ID
         /// </summary>
         [JsonProperty("rf_prediction_id")]
-        public int RfPredictionId { get; set; }
+        public int? RfPredictionId { get; set; }
         /// <summary>
         /// Whether this adset is using RTB or not
         /// </summary>
@@ -175,6 +179,7 @@ namespace Facebook.Models
         /// If it is set to PAUSED, all its active ads will be paused and have an effective status ADSET_PAUSED.
         /// </summary>
         [JsonProperty("status")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Status Status { get; set; }
         /// <summary>
         /// Pending Definition struct of Targeting (Locations, countries, etc....)

@@ -63,9 +63,11 @@ namespace Facebook.SDK.Tests
             IAdSetService adsetService = new AdSetService(client);
             AdSet adset = new AdSet();
             adset.CampaignId = "23842604565950113";
-            adset.BidAmount = 30;
+            adset.BidAmount = 100;
+            
+            adset.DailyBudget = 500; //5.00 Dolares
             adset.StartTime = DateTime.Now;
-            adset.CampaignId = "";
+            //adset.CampaignId = "";
             adset.EndTime = DateTime.Now.AddDays(3);
             adset.Name = "Auto AdSet Configuration";
             adset.BillingEvent = BillingEvent.LINK_CLICKS;
@@ -80,7 +82,7 @@ namespace Facebook.SDK.Tests
                 },
                 publisher_platforms = new string[] { "facebook" },
                 age_min = 18,
-                age_max = 40
+                age_max = 65
             };
             //{
 

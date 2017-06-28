@@ -165,7 +165,9 @@ namespace Facebook.Client
         private StringContent GetPayload(object parameters)
         {
             var json = JsonConvert.SerializeObject(parameters);
-            JObject jsonObject = JObject.FromObject(parameters);
+            JObject jsonObject = JObject.FromObject(parameters, new JsonSerializer {
+                NullValueHandling = NullValueHandling.Ignore,
+            });
             jsonObject.Add("acess_token", AccessToken);
 
             return new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
