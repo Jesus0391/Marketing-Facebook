@@ -29,7 +29,7 @@ namespace Facebook.Models
         /// </summary>
         [DefaultValue(1)]
         [JsonProperty("bid_amount")]
-        public int BidAmount { get; set; }
+        public int? BidAmount { get; set; }
         /// <summary>
         /// The billing event that this adset is using:
         /// APP_INSTALLS: Pay when people install your app.
@@ -68,7 +68,7 @@ namespace Facebook.Models
         /// UTC UNIX timestamp
         /// </summary>
         [JsonProperty("end_time")]
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
         /// <summary>
         /// Default value: Set
         ///An execution setting
@@ -172,7 +172,7 @@ namespace Facebook.Models
         /// The start time of the set, e.g. 2015-03-12 23:59:59-07:00 or 2015-03-12 23:59:59 PDT. UTC UNIX timestamp
         /// </summary>
         [JsonProperty("start_time")]
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
         /// <summary>
         /// Only ACTIVE and PAUSED are valid for creation.
         /// The other statuses can be used for update. 
@@ -243,5 +243,8 @@ namespace Facebook.Models
 
         [JsonProperty("id")]
         public string Id { get; set; }
+
+        [JsonProperty("account_id")]
+        public string AccountId { get; set; }
     }
 }

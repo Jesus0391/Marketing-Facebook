@@ -75,5 +75,10 @@ namespace Facebook.SDK.Services
         {
             throw new NotImplementedException();
         }
+
+        public bool Update(string accountID, Campaign model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

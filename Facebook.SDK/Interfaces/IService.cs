@@ -8,5 +8,6 @@ namespace Facebook.SDK.Interfaces
     {
         List<T> List(string accountId);
         string Create(string accountId, T model);
+        bool Update(string id, T model);
     }
 }

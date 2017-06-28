@@ -68,5 +68,40 @@ namespace Facebook.SDK.Services
             }
             return response.Id;
         }
+
+        public bool Update(string adsetId, AdSet adset)
+        {
+            _results = new List<ValidationResult>();
+            _validationContext = new ValidationContext(adset);
+            var isValid = Validator.TryValidateObject(adset, _validationContext, _results);
+            ResponseShared response = null;
+            if (!isValid)
+            {
+                throw new Exception("The Campaign is invalid model, more inner exception", new Exception(GetErrorsMesages()));
+            }
+            //accountId = GetAccount(accountId);
+            //Valid Rules for Create Campaigns based in Facebook Api. 
+            if (adset != null && !string.IsNullOrEmpty(adsetId))
+            {
+                try
+                {
+                    response = ((string)_client.Post($"{adsetId}/", adset)).JsonToObject<ResponseShared>(ResponseType.Other);
+
+                    if (response == null || !response.IsSuccess)
+                    {
+                        throw new Exception("Error to trying saved adset in Facebook");
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            else
+            {
+                throw new Exception("The AdSet Id is empty");
+            }
+            return response.IsSuccess;
+        }
     }
 }
