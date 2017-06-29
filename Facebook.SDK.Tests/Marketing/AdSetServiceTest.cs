@@ -12,7 +12,7 @@ using System.Text;
 namespace Facebook.SDK.Tests
 {
     [TestClass]
-    public class AdSetTest
+    public class AdSetServiceTest
     {
         [TestMethod]
         public void VerifyAdSetResponse()

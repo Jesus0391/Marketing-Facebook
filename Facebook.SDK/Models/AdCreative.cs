@@ -17,6 +17,12 @@ namespace Facebook.Models
         public string Id { get; set; }
 
         /// <summary>
+        /// This field is required for create
+        /// . The ID of the ad creative to be used by this ad. You can read more about creatives here. You should supply the ID within an object as follows:
+        /// </summary>
+        [JsonProperty("creative_id")]
+        public string CreativeId { get; set; }
+        /// <summary>
         /// The Facebook object ID that is the actor for a link ad (not connected to a Page)
         /// </summary>
         [JsonProperty("actor_id")]
@@ -27,7 +33,7 @@ namespace Facebook.Models
         /// </summary>
         [JsonProperty("applink_treatment")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public LinkTreatment LinkTreatment { get; set; }
+        public LinkTreatment? LinkTreatment { get; set; }
 
         /// <summary>
         /// The body ad of the ad
@@ -35,14 +41,16 @@ namespace Facebook.Models
         [JsonProperty("body")]
         public string Body { get; set; }
 
-        //[JsonProperty("call_to_action")]
-        //public CallToAction CallToAction { get=> throw NotImplementedException; set=> throw NotImplementedException; }
+        [JsonProperty("call_to_action_type")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public CallActionType? CallToActionType { get; set; }
 
         /// <summary>
         /// DynamicAdVoice
         /// </summary>
         [JsonProperty("dynamic_ad_voice")]
-        public DynamicAdVoice DynamicAdVoice { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public DynamicAdVoice? DynamicAdVoice { get; set; }
 
         //public dictionary<enum> ImageCrops {get;set;}
 
@@ -105,6 +113,22 @@ namespace Facebook.Models
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// The Facebook object ID that is relevant to the ad. See connection objects
+        /// </summary>
+        [JsonProperty("object_id")]
+        public Int64 ObjectId { get; set; }
+
+        /// <summary>
+        /// he ID of a page post to use in an ad. This ID can be retrieved by using the graph API to query the posts of the page. If an image is used in the post, 
+        /// it will be downloaded and available in your account's image library. If an unpublished page post was used to create the ad, 
+        /// this ID will be null, but the effective_object_story_id will be the ID of the page post regardless of whether it's an organic or unpublished page post.
+        /// </summary>
+        [JsonProperty("object_story_id")]
+        public string ObjectStoryId { get; set; }
+
+        [JsonProperty("effective_object_story_id")]
+        public string EffectiveObjectStoryId { get; set; }
         //Object_story_spec
         /// <summary>
         /// The type of object that is being advertised. Allowed values are:
@@ -129,6 +153,8 @@ namespace Facebook.Models
         [JsonProperty("object_url")]
         public string ObjectUrl { get; set; }
 
+        [JsonProperty("object_story_spec")]
+        public object ObjectStorySpec { get; set; }
 
         /// <summary>
         /// The Dynamic Product Ad's product set ID
@@ -165,5 +191,7 @@ namespace Facebook.Models
         /// </summary>
         [JsonProperty("use_page_actor_override")]
         public bool UsePageActorOverride { get; set; }
+
+    
     }
 }

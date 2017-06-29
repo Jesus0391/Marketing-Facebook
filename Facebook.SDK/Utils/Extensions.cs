@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Facebook.SDK
+namespace Facebook
 {
     public static class Extensions
     {

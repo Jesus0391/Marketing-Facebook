@@ -1,4 +1,5 @@
 ﻿using Facebook.SDK.Interfaces;
+using Facebook.SDK.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,14 +9,14 @@ using System.ComponentModel.DataAnnotations;
 using Facebook.SDK.Response;
 using Facebook.Models.Enums;
 
-namespace Facebook.SDK.Services
+namespace Facebook.Services
 {
-    public class AdCreativeService : BaseService, IAdCreativeService
+    public class AdService : BaseService, IAdService
     {
-        private const string ENDPOINT = "adcreatives";
-        public AdCreativeService(string version, string accessToken) : base(version, accessToken)
+        private const string ENDPOINT = "ads";
+        public AdService(string version, string accessToken) : base(version, accessToken)
         {
-           
+
         }
         /// <summary>
         /// Get Service with Facebook Client and acess token
@@ -24,17 +25,17 @@ namespace Facebook.SDK.Services
         /// <param name="clientId"></param>
         /// <param name="secret"></param>
         /// <param name="grantType"></param>
-        public AdCreativeService(string version, string clientId,
+        public AdService(string version, string clientId,
                                     string secret, string grantType) : base(version, clientId, secret, grantType)
         {
-           
+
         }
 
-        public AdCreativeService(IFacebookClient client) : base(client)
+        public AdService(IFacebookClient client) : base(client)
         {
-          
+
         }
-        public string Create(string accountId, AdCreative model)
+        public string Create(string accountId, Ad model)
         {
             _results = new List<ValidationResult>();
             _validationContext = new ValidationContext(model);
@@ -42,7 +43,7 @@ namespace Facebook.SDK.Services
             ResponseShared response = null;
             if (!isValid)
             {
-                throw new Exception("The AdCreative is invalid model, more inner exception", new Exception(GetErrorsMesages()));
+                throw new Exception("The Ads is invalid model, more inner exception", new Exception(GetErrorsMesages()));
             }
             accountId = GetAccount(accountId);
             //Valid Rules for Create Campaigns based in Facebook Api. 
@@ -54,7 +55,7 @@ namespace Facebook.SDK.Services
 
                     if (response == null || string.IsNullOrEmpty(response.Id))
                     {
-                        throw new Exception("Error to trying saved AdCreative in Facebook");
+                        throw new Exception("Error to trying saved Ads in Facebook");
                     }
                 }
                 catch (Exception e)
@@ -65,22 +66,12 @@ namespace Facebook.SDK.Services
             return response.Id;
         }
 
-        public List<AdCreative> List(string accountId)
+        public List<Ad> List(string accountId)
         {
-            if (string.IsNullOrEmpty(accountId))
-            {
-                throw new Exception("The account id is empty");
-            }
-            accountId = GetAccount(accountId);
-            List<AdCreative> adCreatives = ((string)_client.Get($"{accountId}/{ENDPOINT}", new
-            {
-                fields = "body,name,status,image_url,object_story_id,title"
-            })).JsonToObject<List<AdCreative>>();
-
-            return adCreatives;
+            throw new NotImplementedException();
         }
 
-        public bool Update(string id, AdCreative model)
+        public bool Update(string id, Ad model)
         {
             throw new NotImplementedException();
         }
