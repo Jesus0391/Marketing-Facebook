@@ -66,7 +66,9 @@ namespace Facebook.SDK.Services
             if (string.IsNullOrEmpty(accountId)) {
                 throw new Exception("The account id is empty");
             }
-            List<Campaign> campaigns = ((string)_client.Get($"{accountId}/{ENDPOINT}", null)).JsonToObject<List<Campaign>>();
+            List<Campaign> campaigns = ((string)_client.Get($"{accountId}/{ENDPOINT}", new {
+                fields = "id,name,effective_status,status"
+            })).JsonToObject<List<Campaign>>();
            
             return campaigns;
         }

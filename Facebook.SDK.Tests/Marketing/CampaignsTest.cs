@@ -34,18 +34,18 @@ namespace Facebook.SDK.Tests
 
         }
 
-        
+        [TestMethod]
         public void GetCampaignsByAccount()
         {
             //Act 
-            IFacebookClient client = new FacebookClient("2.9", "1057652130914324", "9ffc28c2a12d447cb5132995656ac92c", "client_credentials");
-            //IFacebookClient client = new FacebookClient("2.9", "EAANOERzv1jEBAHr5S7bGsX8G6fht6BE8NEm2tOAcI8k6tWTIA1GzwSlOh1U9ZAghSIivmmMtZBYlkaIQGV3FXAaK6e6R3WH1rxmGgo2UPLcts2v5TLH3ccUtEZAN1UDZBABLmd85x1EmcG1sJaywpxA0VZCa76j8ZD");
+            //IFacebookClient client = new FacebookClient("2.9", "1057652130914324", "9ffc28c2a12d447cb5132995656ac92c", "client_credentials");
+            IFacebookClient client = new FacebookClient("2.9", "EAANOERzv1jEBAHr5S7bGsX8G6fht6BE8NEm2tOAcI8k6tWTIA1GzwSlOh1U9ZAghSIivmmMtZBYlkaIQGV3FXAaK6e6R3WH1rxmGgo2UPLcts2v5TLH3ccUtEZAN1UDZBABLmd85x1EmcG1sJaywpxA0VZCa76j8ZD");
             //Services
             ICampaignService campaignService = new CampaignService(client);
 
             //The List Campaign Test
 
-            var response = campaignService.List("10155310538728783");
+            var response = campaignService.List("act_10155310538728783");
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Count > 0, "Return a list of Campaigns");
         }
