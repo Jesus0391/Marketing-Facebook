@@ -24,9 +24,9 @@ namespace Facebook.SDK.Tests
 
             //The Campaign Test
             Campaign model = new Campaign();
-            model.Name = "Test from new APi";
+            model.Name = "Test from new API Engagement";
             model.Status = JAM.Facebook.Models.Enums.Status.PAUSED;
-            model.Objective = JAM.Facebook.Models.Enums.Objective.LINK_CLICKS;
+            model.Objective = JAM.Facebook.Models.Enums.Objective.POST_ENGAGEMENT;
             model.SpendCap = 10000;
             var response = campaignService.Create("10155310538728783", model);
 

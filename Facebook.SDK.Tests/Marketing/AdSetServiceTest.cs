@@ -28,6 +28,7 @@ namespace Facebook.SDK.Tests
 
             Assert.IsNotNull(response);
         }
+
         [TestMethod]
         public void CreateAdSetDefaultSettings()
         {
@@ -38,15 +39,15 @@ namespace Facebook.SDK.Tests
 
             IAdSetService adsetService = new AdSetService(client);
             AdSet adset = new AdSet();
-            adset.CampaignId = "23842604565950113";
+            adset.CampaignId = "23842605921670113";
           
 
             adset.DailyBudget = 500; //5.00 Dollarss
             adset.StartTime = DateTime.Now;
             adset.EndTime = DateTime.Now.AddDays(3);
             adset.Name = "Auto AdSet Configuration";
-            adset.BillingEvent = BillingEvent.LINK_CLICKS;
-            adset.OptimizationGoal = OptimizationGoal.LINK_CLICKS;
+            adset.BillingEvent = BillingEvent.POST_ENGAGEMENT;
+            adset.OptimizationGoal = OptimizationGoal.POST_ENGAGEMENT;
             adset.Status = JAM.Facebook.Models.Enums.Status.PAUSED;
             adset.IsAutoBid = true; //Automatic Delivery
             adset.Targeting = new
@@ -55,7 +56,7 @@ namespace Facebook.SDK.Tests
                 {
                     countries = new[] { "DO" }
                 },
-                publisher_platforms = new string[] { "facebook", "instagram" },
+                publisher_platforms = new string[] { "facebook" },
                 age_min = 18,
                 age_max = 65
             };
@@ -117,15 +118,15 @@ namespace Facebook.SDK.Tests
             IAdSetService adsetService = new AdSetService(client);
             AdSet adset = new AdSet();
             //Update important parameters
-            adset.AccountId = "10155310538728783"; //Customer Account
+            adset.AccountId = "23842605478110113"; //Customer Account
             adset.CampaignId = "23842604565950113"; //Campaign ID
 
             adset.BidAmount = 100;//100 = 1.00 Dollars for Clicks
             adset.DailyBudget = 500; //5.00 Dollarss
           
             adset.Name = "Auto AdSet Configuration";
-            adset.BillingEvent = BillingEvent.LINK_CLICKS;
-            adset.OptimizationGoal = OptimizationGoal.LINK_CLICKS;
+            adset.BillingEvent = BillingEvent.POST_ENGAGEMENT;
+            adset.OptimizationGoal = OptimizationGoal.POST_ENGAGEMENT;
             adset.Status = JAM.Facebook.Models.Enums.Status.PAUSED;
             adset.IsAutoBid = false; //Automatic Delivery
             adset.Targeting = new
@@ -134,14 +135,14 @@ namespace Facebook.SDK.Tests
                 {
                     countries = new[] { "DO" }
                 },
-                publisher_platforms = new string[] { "facebook",  "instagram", "audience_network" }, //Limita ejemplo: Facebook, Instagram, Sponsons, etc.. (Ver API)
+                publisher_platforms = new string[] { "facebook",  "audience_network" }, //Limita ejemplo: Facebook, Instagram, Sponsons, etc.. (Ver API)
                 age_min = 18,
                 age_max = 65
             };
             //{
 
             //};
-            var response = adsetService.Update("23842604628310113", adset);
+            var response = adsetService.Update("23842605478170113", adset);
 
             Assert.IsTrue(response);
         }

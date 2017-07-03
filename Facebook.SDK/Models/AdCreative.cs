@@ -117,7 +117,7 @@ namespace Facebook.Models
         /// The Facebook object ID that is relevant to the ad. See connection objects
         /// </summary>
         [JsonProperty("object_id")]
-        public Int64 ObjectId { get; set; }
+        public Int64? ObjectId { get; set; }
 
         /// <summary>
         /// he ID of a page post to use in an ad. This ID can be retrieved by using the graph API to query the posts of the page. If an image is used in the post, 
@@ -190,7 +190,7 @@ namespace Facebook.Models
         /// If this is true, we will show the page actor for mobile app ads
         /// </summary>
         [JsonProperty("use_page_actor_override")]
-        public bool UsePageActorOverride { get; set; }
+        public bool? UsePageActorOverride { get; set; }
 
     
     }

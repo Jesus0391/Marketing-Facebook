@@ -23,7 +23,7 @@ namespace Facebook.SDK.Tests
 
             IAdCreativeService adsetService = new AdCreativeService(client);
             AdCreative creative = new AdCreative();
-            creative.Name = "Test API"; //Este nombre puede ser dado posteriormente
+            creative.Name = "Test API POst"; //Este nombre puede ser dado posteriormente
             creative.ObjectStoryId = "732881306823664_1203458439765946"; //Post que se quiere crear debe ser el mismo que esta en el unpublish
 
             var response =  adsetService.Create("10155310538728783", creative);

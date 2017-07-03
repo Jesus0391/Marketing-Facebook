@@ -27,10 +27,11 @@ namespace Facebook.SDK.Tests.Marketing
             Ad ad = new Ad();
             ad.Name = "Test AD";
             ad.Status = JAM.Facebook.Models.Enums.Status.PAUSED;
-            ad.AdSetId = 23842604628310113;
+            ad.AdSetId = 23842605921750113; //Post Engag
+            
             ad.Creative = new AdCreative()
             {
-                CreativeId = "23842570907770113" //Este creative ya existia y se habia creado anteriormente
+                CreativeId = "23842605023090113" //Este creative ya existia y se habia creado anteriormente
                 // CreativeId = "23842605023090113" //Se creo este creative pero hay que averiguar que clase de post aplica para LINK_CLICK 
             };
             var response = service.Create("10155310538728783", ad);
