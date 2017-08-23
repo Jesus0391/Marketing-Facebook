@@ -108,6 +108,45 @@ namespace Facebook.SDK.Tests
         }
 
         [TestMethod]
+        public void CreateAdSetReachSettings()
+        {
+            //Act 
+            //IFacebookClient client = new FacebookClient("2.9", "1057652130914324", "9ffc28c2a12d447cb5132995656ac92c", "client_credentials");
+            IFacebookClient client = new FacebookClient("2.9", "EAANOERzv1jEBAMcBC4tDSqpbb1AWfYZAj3BZCoifcMgm3yOADpVWmonpa8drpMyiP6JPf3UAdYbpM4j6NmBIhzIBlF2NyAid1ecKvWWTNXvM8cNWCZBleZCZA2EONXXczk4nFdKtz99NB52POJARZAc2ArQtYEIi8ZD");
+            //Services
+
+            IAdSetService adsetService = new AdSetService(client);
+            AdSet adset = new AdSet();
+            adset.CampaignId = "23842605921670113";
+
+
+            adset.DailyBudget = 500; //5.00 Dollarss
+            adset.StartTime = DateTime.Now;
+            adset.EndTime = DateTime.Now.AddDays(3);
+            adset.Name = "Auto AdSet Configuration";
+            adset.BillingEvent = BillingEvent.POST_ENGAGEMENT;
+            adset.OptimizationGoal = OptimizationGoal.REACH;
+            adset.Status = JAM.Facebook.Models.Enums.Status.PAUSED;
+            adset.IsAutoBid = true; //Automatic Delivery
+            adset.Targeting = new
+            {
+                geo_locations = new
+                {
+                    countries = new[] { "DO" }
+                },
+                publisher_platforms = new string[] { "facebook" },
+                age_min = 18,
+                age_max = 65
+            };
+            //{
+
+            //};
+            var response = adsetService.Create("10155310538728783", adset);
+
+            Assert.AreNotSame("", response);
+        }
+
+        [TestMethod]
         public void UpdateNormalAdSet()
         {
             //Act 
