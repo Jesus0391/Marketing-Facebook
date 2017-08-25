@@ -70,17 +70,15 @@ pipelines:
             - dotnet restore
             # Build project
             - dotnet build ${PROJECT_NAME}/${PROJECT_NAME}.csproj
+            - dotnet build ${PROJECT_NAME}.SDK/${PROJECT_NAME}.SDK.csproj
             # Run tests
             # - dotnet test ${PROJECT_NAME}.Tests/${PROJECT_NAME}.Tests.csproj
             # Create package
-            - dotnet pack ${PROJECT_NAME}/${PROJECT_NAME}.csproj --configuration ${BUILD_CONFIGURATION} --version-suffix=beta-$BUILD_NUMBER
+            - dotnet pack ${PROJECT_NAME}.SDK/${PROJECT_NAME}.SDK.csproj --configuration ${BUILD_CONFIGURATION} --version-suffix=beta-$BUILD_NUMBER
             # Push generated package(s)
             - nuget push ${PROJECT_NAME}.SDK/bin/${BUILD_CONFIGURATION}/*.nupkg -Source ${NUGET_URL}
-             - echo "Develop executing... For Standard"
-            # Generate build number
-            - BUILD_NUMBER=`git log --oneline | wc -l`
-            - echo "Build number':' ${BUILD_NUMBER}"
+            - echo "Develop executing... For Standard"
             # Create package
-            - dotnet pack --configuration ${BUILD_CONFIGURATION} --version-suffix=beta-$BUILD_NUMBER
+            - dotnet pack ${PROJECT_NAME}/${PROJECT_NAME}.csproj --configuration ${BUILD_CONFIGURATION} --version-suffix=beta-$BUILD_NUMBER
             # Push generated package(s)
             - nuget push ${PROJECT_NAME}/bin/${BUILD_CONFIGURATION}/*.nupkg -Source ${NUGET_URL}
