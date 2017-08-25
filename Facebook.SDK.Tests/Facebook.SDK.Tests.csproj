@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Facebook.SDK\Facebook.SDK.csproj" />
+    <ProjectReference Include="..\Facebook\Facebook.csproj" />
   </ItemGroup>
 
   <ItemGroup>

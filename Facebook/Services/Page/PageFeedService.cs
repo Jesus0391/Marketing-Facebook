@@ -52,7 +52,7 @@ namespace Facebook.Services.Page
                 {
                     response = ((string)_client.Get($"{pageAccountId}/promotable_posts", new
                     {
-                        fields = "id,object_id,scheduled_publish_time,message",
+                        fields = "id,object_id,scheduled_publish_time,message,picture,permalink_url,is_published,created_time",
                         is_published = false
                     })).JsonToObject<List<Post>>();
 
@@ -72,9 +72,34 @@ namespace Facebook.Services.Page
                 throw new Exception("Error to trying get promotable Posts at Fan Page Facebook, the page Account is empty!");
             }
         }
-        public List<Post> List(string accountId)
+        public List<Post> List(string pageAccountId)
         {
-            throw new NotImplementedException();
+            List<Post> response = null;
+            if (pageAccountId != null && !string.IsNullOrEmpty(pageAccountId))
+            {
+                try
+                {
+                    response = ((string)_client.Get($"{pageAccountId}/posts", new
+                    {
+                        fields = "id,object_id,scheduled_publish_time,message,picture,permalink_url,is_published,created_time",
+                        limit="100"
+                    })).JsonToObject<List<Post>>();
+
+                    if (response == null)
+                    {
+                        throw new Exception("Error to trying get promotable Posts at Fan Page Facebook");
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                return response;
+            }
+            else
+            {
+                throw new Exception("Error to trying get promotable Posts at Fan Page Facebook, the page Account is empty!");
+            }
         }
 
         public bool Update(string id, Post model)
