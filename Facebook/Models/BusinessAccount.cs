@@ -11,6 +11,8 @@ namespace Facebook.SDK.Models
         public string Name { get; set; }
         [JsonProperty("account_id")]
         public string AccountId { get; set; }
+        [JsonProperty("access_token")]
+        public string PageToken { get; set; }
         [JsonProperty("id")]
         public string Id { get; set; }
     }

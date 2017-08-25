@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using Facebook.Models;
 using Facebook.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using Facebook.SDK.Response;
+using Facebook.Models.Enums;
 
 namespace Facebook.Services.Page
 {
@@ -37,6 +40,7 @@ namespace Facebook.Services.Page
         }
         public string Create(string accountId, Post model)
         {
+          
             throw new NotImplementedException();
         }
 
@@ -105,6 +109,42 @@ namespace Facebook.Services.Page
         public bool Update(string id, Post model)
         {
             throw new NotImplementedException();
+        }
+
+        public string CreatePhotoPost(string accountId, Photo photo)
+        {
+
+            _results = new List<ValidationResult>();
+            _validationContext = new ValidationContext(photo);
+            var isValid = Validator.TryValidateObject(photo, _validationContext, _results);
+            ResponseShared response = null;
+            if (!isValid)
+            {
+                throw new Exception("The Photo Post is invalid model, more inner exception", new Exception(GetErrorsMesages()));
+            }
+            var token = GetPageToken(accountId);
+            //Valid Rules for Create Campaigns based in Facebook Api. 
+            if (photo != null && !string.IsNullOrEmpty(accountId))
+            {
+                try
+                {
+                    if (token != "")
+                    {
+                        _client.AccessToken = token;
+                    }
+                    response = ((string)_client.Post($"{accountId}/Photos", photo)).JsonToObject<ResponseShared>(ResponseType.Other);
+
+                    if (response == null || string.IsNullOrEmpty(response.Id))
+                    {
+                        throw new Exception("Error to trying saved Ads in Facebook");
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            return response.Id;
         }
     }
 }

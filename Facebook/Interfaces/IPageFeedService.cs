@@ -13,6 +13,11 @@ namespace Facebook.Models.Interfaces
         /// <param name="pageAccountId"></param>
         /// <returns></returns>
         List<Post> GetPromotablePosts(string pageAccountId);
-        
+        /// <summary>
+        /// Create Photo Post
+        /// </summary>
+        /// <param name="photo"></param>
+        /// <returns></returns>
+        string CreatePhotoPost(string pageAccountId, Photo photo);
     }
 }

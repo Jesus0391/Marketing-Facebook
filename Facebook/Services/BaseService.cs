@@ -86,6 +86,30 @@ namespace Facebook.SDK.Services
                 throw new Exception("The customerId can't be empty");
             }
         }
+        protected string GetPageToken(string customerId)
+        {
+            if (customerId != "")
+            {
+                dynamic pageToken;
+                try
+                {
+                    pageToken = _client.Get($"/{customerId}/", new
+                    {
+                        fields = "access_token"
+                    });
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                var businessAccount = JsonConvert.DeserializeObject<BusinessAccount>(pageToken);
+                return (businessAccount.PageToken);
+            }
+            else
+            {
+                throw new Exception("The customerId can't be empty");
+            }
+        }
 
     
 
