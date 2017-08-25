@@ -52,7 +52,7 @@ namespace Facebook.Services.Page
                 {
                     response = ((string)_client.Get($"{pageAccountId}/promotable_posts", new
                     {
-                        fields = "id,object_id,scheduled_publish_time,message,picture,permalink_url,is_published,created_time",
+                        fields = "id,object_id,scheduled_publish_time,message,picture,permalink_url,is_published,created_time,full_picture",
                         is_published = false
                     })).JsonToObject<List<Post>>();
 
@@ -81,7 +81,7 @@ namespace Facebook.Services.Page
                 {
                     response = ((string)_client.Get($"{pageAccountId}/posts", new
                     {
-                        fields = "id,object_id,scheduled_publish_time,message,picture,permalink_url,is_published,created_time",
+                        fields = "id,object_id,scheduled_publish_time,message,picture,permalink_url,is_published,created_time,full_picture",
                         limit="100"
                     })).JsonToObject<List<Post>>();
 

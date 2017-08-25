@@ -149,6 +149,12 @@ namespace Facebook.Models
         public string Picture { get; set; }
 
         /// <summary>
+        /// The picture scraped from any link included with the post.
+        /// </summary>
+        [JsonProperty("full_picture")]
+        public string OriginalPicture { get; set; }
+
+        /// <summary>
         /// Any location information attached to the post.
         /// </summary>
         [JsonProperty("place")]
