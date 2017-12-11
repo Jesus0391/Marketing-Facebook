@@ -34,12 +34,12 @@ namespace Facebook.SDK.Tests
         {
             //Act 
             //IFacebookClient client = new FacebookClient("2.9", "1057652130914324", "9ffc28c2a12d447cb5132995656ac92c", "client_credentials");
-            IFacebookClient client = new FacebookClient("2.9", "EAANOERzv1jEBAAbnPmk9tZAY6lCUCk0Lyvu22ZBhOc8vVqDYvPScisavZCYJwepHxEvKmYENSBMnKORaXZA0mOj42SmLhUyR7WxWEP7GgiP4gfFk4WooCZARKrrudKg47vUaAm0NYBoAPVkfJ3CiFgu4b0lf39Iw1ZCiZBknTfsQQZDZD");
+            IFacebookClient client = new FacebookClient("2.10", "EAANOERzv1jEBAAbnPmk9tZAY6lCUCk0Lyvu22ZBhOc8vVqDYvPScisavZCYJwepHxEvKmYENSBMnKORaXZA0mOj42SmLhUyR7WxWEP7GgiP4gfFk4WooCZARKrrudKg47vUaAm0NYBoAPVkfJ3CiFgu4b0lf39Iw1ZCiZBknTfsQQZDZD");
             //Services
 
             IAdSetService adsetService = new AdSetService(client);
             AdSet adset = new AdSet();
-            adset.CampaignId = "23842605921670113";
+            adset.CampaignId = "23842707904700113";
           
 
             adset.DailyBudget = 500; //5.00 Dollarss

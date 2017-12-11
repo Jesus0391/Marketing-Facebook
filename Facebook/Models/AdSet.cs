@@ -163,11 +163,7 @@ namespace Facebook.Models
         /// </summary>
         [JsonProperty("rf_prediction_id")]
         public int? RfPredictionId { get; set; }
-        /// <summary>
-        /// Whether this adset is using RTB or not
-        /// </summary>
-        [JsonProperty("rtb_flag")]
-        public bool RFFlag { get; set; }
+        
         /// <summary>
         /// The start time of the set, e.g. 2015-03-12 23:59:59-07:00 or 2015-03-12 23:59:59 PDT. UTC UNIX timestamp
         /// </summary>
